@@ -1,6 +1,10 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][string]$password = ""
+    [Parameter(Mandatory=$true)]
+    [string]$Subject = "",
+
+    [Parameter(Mandatory=$true)]
+    [string]$password = ""
 )
 
 # must run as admin
@@ -11,13 +15,13 @@ if( -not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 $cwd = Convert-Path .
-$pfxFile = "$cwd\localhost.pfx"
-$cerFile = "$cwd\localhost.cer"
+$pfxFile = "$cwd\$Subject.pfx"
+$cerFile = "$cwd\$Subject.cer"
 
 # abort if files do not exist
 if(!(Test-Path($pfxFile)) -or !(Test-Path($cerFile)))
 {
-    Write-Warning "Failed, no localhost.pfx or localhost.cer in current directory."
+    Write-Warning "Failed, no $Subject.pfx or $Subject.cer in current directory."
     Exit
 }
 
@@ -34,7 +38,7 @@ Try
 }
 Catch
 {
-    Write-Warning "Failed, error importing localhost.pfx. Is the password correct?"
+    Write-Warning "Failed, error importing $Subject.pfx. Is the password correct?"
     Exit
 }
 

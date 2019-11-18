@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$Subject = "",
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$true)]
     [string]$Password = ""
 )
 
@@ -21,9 +21,9 @@ if((Test-Path($pfxFile)) -or (Test-Path($cerFile)))
 # include DnsName property for modern browsers
 # https://groups.google.com/a/chromium.org/forum/#!topic/security-dev/IGT2fLJrAeo
 $cert = New-SelfSignedCertificate `
-    -Subject localhost `
-    -DnsName localhost `
-    -FriendlyName "Localhost Dev Certificate" `
+    -Subject $Subject `
+    -DnsName $Subject `
+    -FriendlyName "$Subject Dev Certificate" `
     -NotBefore (Get-Date) `
     -NotAfter (Get-Date).AddYears(10) `
     -CertStoreLocation "cert:CurrentUser\My" `
