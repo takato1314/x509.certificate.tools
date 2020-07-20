@@ -33,7 +33,7 @@ Directory:
 
 The following use cases are covered:
 
-- Generate a simple self-signed certificate
+- Generate a simple self-signed certificate for any host
 
 ### powershell
 
