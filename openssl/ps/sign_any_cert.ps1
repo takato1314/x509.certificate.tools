@@ -15,6 +15,7 @@ param(
 [string]$clientPath = "./client"
 )
 
+# Sign client cert with ca cert
 openssl x509 `
     -in $(Join-Path -Path "$clientPath" -ChildPath "client.csr") `
     -out $(Join-Path -Path "$clientPath" -ChildPath "client.crt") `
@@ -22,6 +23,7 @@ openssl x509 `
     -CAkey $(Join-Path -Path "$caPath" -ChildPath "ca.key") `
     -pubkey -CAcreateserial -fingerprint -req
 
+# Convert .crt to .pfx
 openssl pkcs12 -export `
     -name "Development $name.crt" `
     -in $(Join-Path -Path $clientPath -ChildPath "client.crt") `
