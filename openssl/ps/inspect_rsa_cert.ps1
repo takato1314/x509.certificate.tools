@@ -55,6 +55,6 @@ Write-Host("Matching csr and cert: $($csrKey -eq $crtKey)")
 Write-Host('---- ---- ----')
 Write-Host("Verify Test")
 Write-Host('---- ---- ----')
-openssl verify -CAfile $(Join-Path -Path $certPath -ChildPath "$name.crt") $(Join-Path -Path $certPath -ChildPath "$name.crt")
+openssl verify -show_chain -CAfile $(Join-Path -Path $certPath -ChildPath "$name.crt") $(Join-Path -Path $certPath -ChildPath "$name.crt")
 
 Write-Host('---- ---- ---- ---- ---- ---- ')

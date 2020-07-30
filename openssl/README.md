@@ -99,7 +99,7 @@ For development purpose, certificate is chained from CA -> Client
 5. By default, all certs generated above are self-signed. To sign the `client` certificate with `ca` certificate, execute `sign_*_cert`
 
    ``` powershell
-   ./sign_*_cert.ps1 -caPath "./ca" -clientPath "./client"
+   ./sign_*_cert.ps1 -configPath "./../examples/client.config" -caPath "./ca" -clientPath "./client"
    ```
 
 ### Renew certificates
