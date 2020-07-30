@@ -1,0 +1,7 @@
+*.pubkey
+*.key
+*.csr
+*.crt
+*.srl
+*.pfx
+*.p12
