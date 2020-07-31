@@ -1,9 +1,14 @@
-﻿<#
+<#
 .SYNOPSIS
-    Signs a client cert with a CA cert.
+    Signs a client cert with a CA cert using `openssl ca`.
+    See https://gist.github.com/Soarez/9688998#openssl-ca.
 
 .DESCRIPTION
     This is can used when CSR and CA are from 2 different entities (ie. Not using self-sign certificate).
+    The following folder/files are required to be available:
+      - newcerts
+      - serial (hex serial number)
+      - index.txt (database)
 #>
 
 param(
@@ -22,17 +27,16 @@ param(
 $ErrorActionPreference = "Stop"
 
 # Extract file config file name to use as output file name
-$caName = $(Get-ChildItem -Path $caPath)[0].Basename
-$clientName = $(Get-ChildItem -Path $clientPath)[0].Basename
+$caName = $(Get-ChildItem -Path $caPath -File)[0].Basename
+$clientName = $(Get-ChildItem -Path $clientPath -File)[0].Basename
 
 # Sign client cert with ca cert
-openssl x509 `
-    -in $(Join-Path -Path "$clientPath" -ChildPath "$clientName.csr") `
-    -out $(Join-Path -Path "$clientPath" -ChildPath "$clientName.crt") `
-    -CA $(Join-Path -Path "$caPath" -ChildPath "$caName.crt") `
-    -CAkey $(Join-Path -Path "$caPath" -ChildPath "$caName.key") `
-    -extfile "$configPath" -extensions "v3_ca" `
-    -req -pubkey -CAcreateserial -fingerprint -days 365
+# https://gist.github.com/Soarez/9688998#openssl-ca
+openssl ca `
+    -config $configPath `
+    -extfile $configPath -extensions 'v3_ca' -days 365 `
+    -out $(Join-Path -Path $clientPath -ChildPath "$clientName.crt") `
+    -infiles $(Join-Path -Path $clientPath -ChildPath "$clientName.csr") `
 
 # Convert .crt to .pfx
 openssl pkcs12 -export `

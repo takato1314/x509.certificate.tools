@@ -40,7 +40,7 @@ if (-not (Test-Path -Path $outputPath)){
 }
 
 # Extract file config file name to use as output file name
-$name = $(Get-Item $configPath).Basename
+$name = $(Get-Item $configPath -File).Basename
 
 # Generate a $name certificate with rsa 2048 encrypted
 Write-Host $name

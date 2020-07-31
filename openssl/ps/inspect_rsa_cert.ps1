@@ -20,7 +20,7 @@ param
 $ErrorActionPreference = "Stop"
 
 # Extract file config file name to use as output file name
-$name = $(Get-ChildItem -Path $certPath)[0].Basename
+$name = $(Get-ChildItem -Path $certPath -File)[0].Basename
 
 # Inspect
 Write-Host('---- ---- ---- ---- ---- ---- ')
@@ -33,7 +33,7 @@ Write-Host("Inspect the CSR...")
 openssl req -in $(Join-Path -Path $certPath -ChildPath "$name.csr") -noout -text
 
 Write-Host('---- ---- ---- ---- ---- ---- ')
-Write-Host("Inspect the generated Certificate...")
+Write-Host("Inspect the Certificate...")
 openssl x509 -in $(Join-Path -Path $certPath -ChildPath "$name.crt") -noout -text
 
 Write-Host('---- ---- ---- ---- ---- ---- ')
